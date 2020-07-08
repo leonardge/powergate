@@ -88,7 +88,10 @@ func (fc *FilecoinHost) Addrs(pid peer.ID) []multiaddr.Multiaddr {
 }
 
 func connectToBootstrapPeers(network string, h host.Host) error {
-	peers := getBootstrapPeers(network)
+	peers, err := getBootstrapPeers(network)
+	if err != nil {
+		return fmt.Errorf("getting bootstrap peers: %s", err)
+	}
 	ctx := context.Background()
 	var lock sync.Mutex
 	var success int
